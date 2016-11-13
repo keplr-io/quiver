@@ -1,4 +1,6 @@
 import numpy as np
+from keras.preprocessing import image
+from imagenet_utils import preprocess_input
 
 '''
     From:
@@ -17,3 +19,13 @@ def deprocess_image(x):
     x = np.clip(x, 0, 1)
 
     return x
+
+def load_img(input_path, target_shape):
+    img = image.load_img(input_path, target_size=target_shape)
+
+    return preprocess_input(
+        np.expand_dims(
+            image.img_to_array(img),
+            axis=0
+        )
+    )
