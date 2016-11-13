@@ -6,10 +6,17 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: 50%;
+    width: 40%;
     height: 1000px;
     background-color: #fff;
     z-index: 99;
+}
+
+.experiment-container {
+    width: 60%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .output-container {

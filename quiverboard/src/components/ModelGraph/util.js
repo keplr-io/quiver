@@ -41,15 +41,15 @@ export function getModelCytoscapeGraph(kerasGraph) {
          */
         kerasGraph.config.layers.reduce((links, layer) => (
             links.concat(
-                layer.inbound_nodes.map(
+                layer.inbound_nodes.length ? layer.inbound_nodes[0].map(
                     (inboundNode) => ({
                         data: {
-                            id: layer.name + '-' + inboundNode[0][0],
-                            source: subgraphMap[inboundNode[0][0]] ? getSubgraphEnd(subgraphMap[inboundNode[0][0]]) : inboundNode[0][0],
+                            id: layer.name + '-' + inboundNode[0],
+                            source: subgraphMap[inboundNode[0]] ? getSubgraphEnd(subgraphMap[inboundNode[0]]) : inboundNode[0],
                             target: subgraphMap[layer.name] ? getSubgraphStart(subgraphMap[layer.name]) : layer.name
                         }
                     })
-                )
+                ) : []
             )
         ), [])
     );
