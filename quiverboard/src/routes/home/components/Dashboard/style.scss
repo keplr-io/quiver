@@ -52,3 +52,29 @@
         opacity: 1;
     }
 }
+
+.layer-info-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 50px;
+    @include simple-shadow();
+    @include simple-transition();
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    .layer-name {
+        font-size: 1.2em;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 30px;
+    }
+    .layer-config {
+        pre {
+            padding: 40px!important;
+            background-color: rgba(0, 0, 0, 0.02)!important;
+            border: 1px solid rgba(0, 0, 0, 0.1)!important;
+            margin: 0;
+        }
+    }
+}
