@@ -29,7 +29,8 @@ export function getModelCytoscapeGraph(kerasGraph) {
                         {
                             data: {
                                 id: layer.name,
-                                data: layer
+                                data: layer,
+                                shape: layer.class_name === 'Convolution2D' ? 'roundrectangle' : 'ellipse'
                             }
                         }
                     ])

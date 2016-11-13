@@ -34,9 +34,9 @@ export default class ModelGraph extends React.Component {
                         'text-halign': 'right',
                         'text-margin-x': 20,
                         'cursor': 'pointer',
-                        shape: 'rectangle',
-                        width: 'mapData(data.config.nb_col, 1, 20, 50, 200)',
-                        height: 'mapData(data.config.nb_row, 1, 20, 50, 200)'
+                        shape: 'data(shape)',
+                        width: 'mapData(data.config.nb_col, 1, 20, 100, 250)',
+                        height: 'mapData(data.config.nb_row, 1, 20, 100, 250)',
                     }
                 },
                 {
@@ -44,7 +44,8 @@ export default class ModelGraph extends React.Component {
                     style: {
                         'width': 4,
                         'target-arrow-shape': 'triangle',
-                        'curve-style': 'bezier'
+                        'curve-style': 'bezier',
+                        'line-color': '#ddd'
                     }
                 }
             ]
