@@ -11,7 +11,8 @@ export default connect(
         layers: state.layers,
         inputs: state.inputs,
         currentLayer: state.currentLayer,
-        currentInput: state.currentInput
+        currentInput: state.currentInput,
+        isLayerLoading: state.isLayerLoading
     }),
     {
         loadModel,

@@ -15,7 +15,8 @@ export default class Dashboard extends Component {
         layers: PropTypes.object,
         inputs: PropTypes.array,
         currentLayer: PropTypes.string,
-        currentInput: PropTypes.string
+        currentInput: PropTypes.string,
+        isLayerLoading: PropTypes.bool
     }
 
     componentWillMount() {
@@ -84,7 +85,10 @@ export default class Dashboard extends Component {
                                                             <img className='layer-img-img layer-output' key={layerImgSrc} width={100} height={100} src={`${QUIVER_URL}/temp-file/${layerImgSrc}`} />
                                                         </div>
                                                     )
-                                                ) : <div className='dash-message'> 'No data for this layer' </div>
+                                                ) : (
+                                                    this.props.isLayerLoading ? <div className='dash-message'>Loading...</div> :
+                                                        <div className='dash-message'> No data for this layer </div>
+                                                )
 
                                             }</div>
                                         );

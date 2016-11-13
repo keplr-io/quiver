@@ -45,8 +45,10 @@ export function getModelCytoscapeGraph(kerasGraph) {
                     (inboundNode) => ({
                         data: {
                             id: layer.name + '-' + inboundNode[0],
-                            source: subgraphMap[inboundNode[0]] ? getSubgraphEnd(subgraphMap[inboundNode[0]]) : inboundNode[0],
-                            target: subgraphMap[layer.name] ? getSubgraphStart(subgraphMap[layer.name]) : layer.name
+                            source: subgraphMap[inboundNode[0]]
+                                ? getSubgraphEnd(subgraphMap[inboundNode[0]]) : inboundNode[0],
+                            target: subgraphMap[layer.name]
+                                ? getSubgraphStart(subgraphMap[layer.name]) : layer.name
                         }
                     })
                 ) : []
