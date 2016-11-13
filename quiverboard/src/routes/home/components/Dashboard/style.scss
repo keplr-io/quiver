@@ -26,10 +26,19 @@
     }
 }
 
+.dash-loader {
+    padding: 150px;
+    text-align: center;
+}
 .dash-message  {
     color: rgba(0, 0, 0, 0.5);
     text-align: center;
     padding: 50px;
+    background-color: rgba(0, 0, 0, 0.01);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 100px auto;
 }
 
 .layer-img-container {

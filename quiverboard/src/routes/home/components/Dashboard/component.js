@@ -31,7 +31,9 @@ export default class Dashboard extends Component {
 
     render() {
         if (!this.props.model) {
-            return <div className='dash-message'>Loading model...</div>;
+            return <div className='dash-loader'>
+                <Loader color='rgba(0, 0, 0, 0.3)' size='20px'></Loader>
+            </div>;
         }
 
 
@@ -105,7 +107,7 @@ export default class Dashboard extends Component {
                                                                 </div>
                                                             )
                                                         ) : (
-                                                            this.props.isLayerLoading ? <div className='dash-message'>
+                                                            this.props.isLayerLoading ? <div className='dash-loader'>
                                                                 <Loader color='rgba(0, 0, 0, 0.3)' size='20px'></Loader>
                                                             </div> : <div className='dash-message'>
                                                                 No data for this layer
