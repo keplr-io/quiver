@@ -1,34 +1,21 @@
 import json
 import numpy as np
 
-from flask import Flask, request, send_from_directory
+from flask import Flask, send_from_directory
 from flask.json import jsonify
 from flask_cors import CORS
 
 from keras.preprocessing import image
 from keras.models import Model
-from keras import backend as K
 
 from imagenet_utils import preprocess_input
 from gevent.wsgi import WSGIServer
 
 from scipy.misc import imsave
 from os.path import abspath, relpath
+from util import deprocess_image
 import tensorflow as tf
 graph = tf.get_default_graph()
-
-# util function to convert a tensor into a valid image
-def deprocess_image(x):
-    # normalize tensor: center on 0., ensure std is 0.1
-    x -= x.mean()
-    x /= (x.std() + 1e-5)
-    x *= 0.1
-
-    # clip to [0, 1]
-    x += 0.5
-    x = np.clip(x, 0, 1)
-
-    return x
 
 
 def get_app(model, temp_folder='./tmp'):
@@ -43,11 +30,14 @@ def get_app(model, temp_folder='./tmp'):
 
     @app.route('/temp-file/<path>')
     def get_temp_file(path):
-        print('lol')
         return send_from_directory(abspath(temp_folder), path)
 
+    @app.route('/model', methods=['GET'])
+    def get_config():
+        return jsonify(json.loads(model.to_json()))
+
     @app.route('/layer/<layer_name>/<input_path>', methods=['GET'])
-    def get_model(layer_name, input_path):
+    def get_layer_outputs(layer_name, input_path):
 
         layer_model = Model(
             input=model.input,
@@ -79,7 +69,6 @@ def get_app(model, temp_folder='./tmp'):
                 imsave(filename, deprocessed)
 
         return jsonify(output_files)
-
 
     return app
 
