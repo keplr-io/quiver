@@ -2,7 +2,6 @@
  * Data-independent application states
  */
 
-
 export const setCurrentLayer = layerName => ({
     type: 'set-current-layer',
     layerName

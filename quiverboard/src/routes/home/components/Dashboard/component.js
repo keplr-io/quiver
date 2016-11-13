@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import './style.scss';
+import ModelGraph from 'components/ModelGraph';
 
 export default class Dashboard extends Component {
 
@@ -23,31 +24,22 @@ export default class Dashboard extends Component {
 
         return (
             <div>
-                <div>{
-                    this.props.model.config.layers.map(
-                        layer => (
-                            <div key={layer.name}
-                                onClick={
-                                    () => {
-                                        this.props.loadLayerData(layer.name, 'elephant.jpg')
-                                        this.props.setCurrentLayer(layer.name)
-                                    }
-                                }
-                                className='btn btn-default'>
-                                {layer.name} ({layer.class_name})
-                            </div>
-                        )
-                    )
-
-                }</div>
-                <div>{
+                <div className='col-md-3'>
+                    <ModelGraph modelConfig={this.props.model} selectNode={
+                        (layerName) => {
+                            this.props.loadLayerData(layerName, 'elephant.jpg')
+                            this.props.setCurrentLayer(layerName)
+                        }
+                    } />
+                </div>
+                <div className='col-md-9'>{
                     this.props.currentLayer ? (
                         this.props.layers[this.props.currentLayer] ? this.props.layers[this.props.currentLayer].map(
                             (layerImgSrc, idx) => (
-                                <img key={idx} src={`${QUIVER_URL}/temp-file/${layerImgSrc}`}/>
+                                <img key={idx} width={100} height={100} src={`${QUIVER_URL}/temp-file/${layerImgSrc}`}/>
                             )
                         ) : 'No data for this layer'
-                    ): 'Select a layer'
+                    ) : 'Select a layer'
                 }</div>
             </div>
         );

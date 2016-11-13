@@ -1,4 +1,8 @@
 import json
+import re
+from os import listdir
+from os.path import abspath, relpath
+
 import numpy as np
 
 from flask import Flask, send_from_directory
@@ -12,13 +16,12 @@ from imagenet_utils import preprocess_input
 from gevent.wsgi import WSGIServer
 
 from scipy.misc import imsave
-from os.path import abspath, relpath
 from util import deprocess_image
 import tensorflow as tf
 graph = tf.get_default_graph()
 
 
-def get_app(model, temp_folder='./tmp'):
+def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     app = Flask(__name__)
     app.threaded=True
@@ -26,11 +29,31 @@ def get_app(model, temp_folder='./tmp'):
 
     @app.route('/')
     def home():
-        return 'quiver home'
+        return jsonify({
+            'availableEndpoints': {
+                '/inputs': 'lists all images in image directory',
+                '/temp-file/<path>': 'fetches a file in the temp folder',
+                '/model': 'fetches model metadata',
+                '/layer/<layerName>/<inputPath>': 'get layer output on input'
+            }
+        })
+
+    @app.route('/inputs')
+    def get_inputs():
+        image_regex = re.compile(r".*\.(jpg|png|gif)$")
+
+        return jsonify([
+            filename for filename in listdir(input_folder)
+            if image_regex.match(filename) != None
+        ])
 
     @app.route('/temp-file/<path>')
     def get_temp_file(path):
         return send_from_directory(abspath(temp_folder), path)
+
+    @app.route('/input-file/<path>')
+    def get_input_file(path):
+        return send_from_directory(abspath(input_folder), path)
 
     @app.route('/model', methods=['GET'])
     def get_config():
@@ -52,12 +75,13 @@ def get_app(model, temp_folder='./tmp'):
 
         with graph.as_default():
 
-            layer_outputs = layer_model.predict(x)
+            layer_outputs = layer_model.predict(x)[0]
             output_files = []
+            print (layer_outputs.shape)
 
             for z in range(0, layer_outputs.shape[2]):
 
-                img = layer_outputs[0][:, :, z]
+                img = layer_outputs[:, :, z]
                 deprocessed = deprocess_image(img)
                 filename = get_output_name(temp_folder, layer_name, z)
                 output_files.append(
