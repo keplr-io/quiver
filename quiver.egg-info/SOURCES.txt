@@ -1,0 +1,5 @@
+setup.py
+quiver.egg-info/PKG-INFO
+quiver.egg-info/SOURCES.txt
+quiver.egg-info/dependency_links.txt
+quiver.egg-info/top_level.txt
