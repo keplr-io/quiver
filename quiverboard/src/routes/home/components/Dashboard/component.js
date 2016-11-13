@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import './style.scss';
 import ModelGraph from 'components/ModelGraph';
+import Loader from 'halogen/RotateLoader';
 
 export default class Dashboard extends Component {
 
@@ -86,8 +87,11 @@ export default class Dashboard extends Component {
                                                         </div>
                                                     )
                                                 ) : (
-                                                    this.props.isLayerLoading ? <div className='dash-message'>Loading...</div> :
-                                                        <div className='dash-message'> No data for this layer </div>
+                                                    this.props.isLayerLoading ? <div className='dash-message'>
+                                                        <Loader color='rgba(0, 0, 0, 0.3)' size='20px'></Loader>
+                                                    </div> : <div className='dash-message'>
+                                                        No data for this layer
+                                                    </div>
                                                 )
 
                                             }</div>
