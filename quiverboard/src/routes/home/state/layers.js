@@ -1,7 +1,8 @@
-import fetchLayerData from '../resource';
+import { fetchLayerData } from '../resource';
 
 export const loadLayerData = (layerName, inputName) =>
     dispatch => fetchLayerData(layerName, inputName)
+        .then(response => response.json())
         .then(layerData => dispatch(
             updateLayer(layerName, layerData)
         ));

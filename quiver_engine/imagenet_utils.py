@@ -2,7 +2,6 @@
     From https://github.com/fchollet/deep-learning-models
 '''
 
-import numpy as np
 import json
 
 from keras.utils.data_utils import get_file
