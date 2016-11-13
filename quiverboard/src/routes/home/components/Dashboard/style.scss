@@ -1,8 +1,10 @@
 @import './mixins';
 
 .inputs-container {
-    text-align: center;
-    padding: 20px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    display: inline-block;
+
     .input-container {
         display: inline-block;
         margin: 10px;
@@ -10,6 +12,9 @@
         overflow: hidden;
         opacity: 0.3;
         cursor: pointer;
+        @include simple-shadow();
+        width: 100px;
+        height: 100px;
 
         &.selected-input {
             opacity: 1;
@@ -77,4 +82,8 @@
             margin: 0;
         }
     }
+}
+
+.output-container {
+    margin-top: 20px;
 }
