@@ -1,3 +1,17 @@
 .graph-vis-container {
     min-height: 1000px;
 }
+
+.graph-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 20%;
+    height: 1000px;
+    background-color: #fff;
+    z-index: 99;
+}
+
+.output-container {
+    text-align: right;
+}

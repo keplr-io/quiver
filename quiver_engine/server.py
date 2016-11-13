@@ -83,7 +83,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
                 img = layer_outputs[:, :, z]
                 deprocessed = deprocess_image(img)
-                filename = get_output_name(temp_folder, layer_name, z)
+                filename = get_output_name(temp_folder, layer_name, input_path, z)
                 output_files.append(
                     relpath(
                         filename,
@@ -105,5 +105,5 @@ def launch(model, temp_folder='./tmp', port=5000):
         get_app(model, temp_folder)
     )
 
-def get_output_name(temp_folder, layer_name, z_idx):
-    return temp_folder + '/' + layer_name + '_' + str(z_idx) + '.png'
+def get_output_name(temp_folder, layer_name, input_path, z_idx):
+    return temp_folder + '/' + layer_name + '_' + str(z_idx) + '_' + input_path + '.png'

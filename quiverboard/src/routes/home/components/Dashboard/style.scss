@@ -1,0 +1,48 @@
+.inputs-container {
+    text-align: center;
+    padding: 20px;
+    .input-container {
+        display: inline-block;
+        margin: 10px;
+        border-radius: 3px;
+        overflow: hidden;
+        opacity: 0.3;
+        &.selected-input {
+            opacity: 1;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.dash-message  {
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 50px;
+}
+
+.layer-img-container {
+    display: inline-block;
+    margin: 2px;
+    opacity: 0.9;
+    position: relative;
+    width: 100px;
+    height: 100px;
+
+    .layer-img-img {
+        position: absolute;
+        top: 0;
+        left:0;
+    }
+
+    .layer-output {
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+    &:hover {
+        opacity: 1;
+    }
+}
