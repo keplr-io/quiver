@@ -1,0 +1,30 @@
+{
+  "parser"  : "babel-eslint",
+  "extends" : [
+    "standard",
+    "standard-react"
+  ],
+  "plugins" : [
+    "babel"
+  ],
+  "env"     : {
+    "browser" : true
+  },
+  "globals" : {
+    "Action"       : false,
+    "__DEV__"      : false,
+    "__PROD__"     : false,
+    "__DEBUG__"    : false,
+    "__DEBUG_NEW_WINDOW__" : false,
+    "__BASENAME__" : false,
+    "QUIVER_URL": false
+  },
+  "rules": {
+    "semi" : [2, "always"],
+    "indent": [1, 4, {"SwitchCase": 1}],
+    "max-len": [2, 120, 2],
+    "react/jsx-indent": 0,
+    "padded-blocks": 0,
+    "space-before-function-paren": ["error", { "anonymous": "always", "named": "ignore" }]
+  }
+}
