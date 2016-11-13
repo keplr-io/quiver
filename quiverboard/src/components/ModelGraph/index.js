@@ -33,7 +33,10 @@ export default class ModelGraph extends React.Component {
                         'text-valign': 'center',
                         'text-halign': 'right',
                         'text-margin-x': 20,
-                        'cursor': 'pointer'
+                        'cursor': 'pointer',
+                        shape: 'rectangle',
+                        width: 'mapData(data.config.nb_col, 1, 20, 50, 200)',
+                        height: 'mapData(data.config.nb_row, 1, 20, 50, 200)'
                     }
                 },
                 {
