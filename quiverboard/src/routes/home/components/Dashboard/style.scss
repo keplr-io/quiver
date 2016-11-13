@@ -80,9 +80,10 @@
     @include simple-shadow();
     @include simple-transition();
     border: 1px solid rgba(0, 0, 0, 0.1);
+    max-width: 30%;
+
     border-radius: 3px;
     .layer-name {
-        font-size: 1.2em;
         color: rgba(0, 0, 0, 0.5);
         padding: 30px;
     }

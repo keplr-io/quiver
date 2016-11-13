@@ -2,6 +2,7 @@ import json
 import re
 from os import listdir
 from os.path import abspath, relpath, dirname, join
+import webbrowser
 
 import numpy as np
 
@@ -16,8 +17,6 @@ from scipy.misc import imsave
 from util import deprocess_image, load_img
 from layer_result_generators import get_outputs_generator
 
-print 'yoyoyo'
-
 import tensorflow as tf
 graph = tf.get_default_graph()
 
@@ -30,14 +29,6 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     @app.route('/')
     def home():
-        print (
-            join(
-                dirname(dirname(abspath(__file__))),
-                'quiverboard/dist',
-                'index.html'
-            )
-
-        )
         return send_from_directory(
             join(
                 dirname(dirname(abspath(__file__))),
@@ -104,7 +95,8 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
 def run_app(app):
     http_server = WSGIServer(('', 5000), app)
-    return http_server.serve_forever()
+    webbrowser.open_new('http://localhost:5000')
+    http_server.serve_forever()
 
 def launch(model, temp_folder='./tmp', port=5000):
     return run_app(
