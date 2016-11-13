@@ -30,9 +30,9 @@ export default class ModelGraph extends React.Component {
                     style: {
                         'content': 'data(id)',
                         'text-opacity': 0.5,
-                        'text-valign': 'bottom',
-                        'text-halign': 'center',
-                        'text-margin-y': 15,
+                        'text-valign': 'center',
+                        'text-halign': 'right',
+                        'text-margin-x': 20,
                         'cursor': 'pointer'
                     }
                 },

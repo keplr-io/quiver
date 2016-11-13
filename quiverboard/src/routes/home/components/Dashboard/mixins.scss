@@ -1,0 +1,21 @@
+@mixin box-shadow($left, $top, $blur, $color) {
+    -webkit-box-shadow:$left $top $blur $color;
+    -moz-box-shadow: $left $top $blur $color;
+    box-shadow: $left $top $blur $color;
+}
+
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
+
+
+@mixin simple-shadow() {
+    @include box-shadow(0, 5px, 10px, rgba(0, 0, 0, 0.05));
+}
+
+@mixin simple-transition() {
+    @include transition(all .15s ease)
+}

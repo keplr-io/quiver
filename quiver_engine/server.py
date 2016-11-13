@@ -22,6 +22,7 @@ graph = tf.get_default_graph()
 
 
 def get_app(model, temp_folder='./tmp', input_folder='./'):
+    single_input_shape = model.inputs[0].get_shape()[1:3]
 
     app = Flask(__name__)
     app.threaded=True
@@ -68,7 +69,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         )
 
         img_path = input_path
-        img = image.load_img(img_path, target_size=(224, 224))
+        img = image.load_img(img_path, target_size=single_input_shape)
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
