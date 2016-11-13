@@ -83,7 +83,7 @@ webpackConfig.plugins = [
   }),
   new webpack.DefinePlugin({
     QUIVER_URL: JSON.stringify(
-      `http://${process.env.QUIVER_HOST || 'localhost:5000'}`
+      process.env.QUIVER_HOST ? `http://${process.env.QUIVER_HOST}` : ''
     )
   })
 

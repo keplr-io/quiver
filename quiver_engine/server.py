@@ -1,7 +1,7 @@
 import json
 import re
 from os import listdir
-from os.path import abspath, relpath
+from os.path import abspath, relpath, dirname, join
 
 import numpy as np
 
@@ -16,6 +16,8 @@ from scipy.misc import imsave
 from util import deprocess_image, load_img
 from layer_result_generators import get_outputs_generator
 
+print 'yoyoyo'
+
 import tensorflow as tf
 graph = tf.get_default_graph()
 
@@ -28,14 +30,28 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     @app.route('/')
     def home():
-        return jsonify({
-            'availableEndpoints': {
-                '/inputs': 'lists all images in image directory',
-                '/temp-file/<path>': 'fetches a file in the temp folder',
-                '/model': 'fetches model metadata',
-                '/layer/<layerName>/<inputPath>': 'get layer output on input'
-            }
-        })
+        print (
+            join(
+                dirname(dirname(abspath(__file__))),
+                'quiverboard/dist',
+                'index.html'
+            )
+
+        )
+        return send_from_directory(
+            join(
+                dirname(dirname(abspath(__file__))),
+                'quiverboard/dist'
+            ),
+            'index.html'
+        )
+
+    @app.route('/<path>')
+    def get_board_files(path):
+        return send_from_directory(join(
+            dirname(dirname(abspath(__file__))),
+            'quiverboard/dist'
+        ), path)
 
     @app.route('/inputs')
     def get_inputs():
