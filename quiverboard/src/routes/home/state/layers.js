@@ -1,4 +1,4 @@
-import fetchLayerData from './resource';
+import fetchLayerData from '../resource';
 
 export const loadLayerData = (layerName, inputName) =>
     dispatch => fetchLayerData(layerName, inputName)

@@ -1,8 +1,8 @@
-import fetchModel from './resource';
+import { fetchModel } from '../resource';
 
-export const loadModel = () => dispatch => fetchModel().then(
-    model => dispatch(updateModel(model))
-);
+export const loadModel = () => dispatch => fetchModel()
+    .then(response => response.json())
+    .then(model => dispatch(updateModel(model)));
 
 export const updateModel = model => ({
     type: 'update-model-config',
