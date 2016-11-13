@@ -12,10 +12,11 @@
         overflow: hidden;
         opacity: 0.3;
         cursor: pointer;
-        @include simple-shadow();
         width: 100px;
         height: 100px;
 
+        @include simple-shadow();
+        @include simple-transition();
         &.selected-input {
             opacity: 1;
         }
@@ -43,7 +44,7 @@
 
 .layer-img-container {
     display: inline-block;
-    margin: 2px;
+    margin: 0 2px;
     border-radius: 3px;
     overflow: hidden;
     position: relative;
@@ -54,6 +55,8 @@
         position: absolute;
         top: 0;
         left:0;
+        width: 100%;
+        height: 100%;
     }
 
     .layer-output {
