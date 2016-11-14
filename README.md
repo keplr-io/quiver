@@ -74,8 +74,9 @@ python setup.py develop
 **Building the Client**
 
 ```bash
-    export QUIVER_URL=localhost:5000 # or whatever you set your port to be
     cd quiverboard
+    npm install
+    export QUIVER_URL=localhost:5000 # or whatever you set your port to be
     npm start
 ```
 
