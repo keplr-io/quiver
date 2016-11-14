@@ -1,10 +1,14 @@
 # Quiver: Interactive convnet features visualization for Keras
 
+
+## Quickstart
+
 **Installation**
 
 ```bash
     pip install quiver_engine
 ```
+
 
 **Usage**
 
@@ -34,6 +38,23 @@ This will launch the visualization at `localhost:5000`
     )
 ```
 
+## Development
 
-**Credits**
-This is essentially an implementation of the ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
+**Building from master**
+
+Check out this repository and run
+
+```bash
+python setup.py develop
+```
+
+**Building the Client**
+
+```bash
+    export QUIVER_URL=localhost:5000 # or whatever you set your port to be
+    cd quiverboard
+    npm start
+```
+
+## Credits
+This is essentially an implementation of some ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
