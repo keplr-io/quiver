@@ -1,0 +1,6 @@
+{
+  "name": "Quiver",
+  "tagline": "Interactive convnet features visualization for Keras",
+  "body": "# Quiver\r\nInteractive convnet features visualization for Keras\r\n\r\n\r\n![gzqll3](https://cloud.githubusercontent.com/assets/5866348/20253975/f3d56f14-a9e4-11e6-9693-9873a18df5d3.gif)\r\n\r\n\r\n\r\n**The quiver workflow**\r\n\r\n1. Build your model in keras\r\n\r\n    ```python\r\n    model = Model(...)\r\n    ```\r\n2. Launch the visualization dashboard with 1 line of code\r\n\r\n    ```python\r\n    quiver_engine.server.launch(model, input_folder='./imgs')\r\n    ```\r\n3. Explore layer activations on all the different images in your input folder.\r\n\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
