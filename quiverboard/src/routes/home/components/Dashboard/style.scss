@@ -100,3 +100,19 @@
 .output-container {
     margin-top: 20px;
 }
+
+
+.collapse-expand-btn {
+    margin-top: -20px;
+    padding: 10px;
+    font-weight: lighter;
+    cursor: pointer;
+    opacity: 0.5;
+    float: right;
+    font-size: 2em;
+    @include simple-transition();
+
+    &:hover {
+        opacity: 1;
+    }
+}

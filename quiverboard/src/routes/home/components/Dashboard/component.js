@@ -13,13 +13,15 @@ export default class Dashboard extends Component {
         loadInputs: PropTypes.func,
         setCurrentLayer: PropTypes.func,
         setCurrentInput: PropTypes.func,
+        setIsLayerInfoCollapsed: PropTypes.func,
 
         model: PropTypes.object,
         layers: PropTypes.object,
         inputs: PropTypes.array,
         currentLayer: PropTypes.string,
         currentInput: PropTypes.string,
-        isLayerLoading: PropTypes.bool
+        isLayerLoading: PropTypes.bool,
+        layerInfoIsCollpased: PropTypes.bool
     }
 
     componentWillMount() {
@@ -90,12 +92,18 @@ export default class Dashboard extends Component {
                                                         <div className='layer-name'>
                                                             <span>{layerConfig.name} </span>
                                                             <span>({layerConfig.class_name})</span>
+                                                            <span onClick={() => this.props.setIsLayerInfoCollapsed(!this.props.layerInfoIsCollpased)}
+                                                                className='collapse-expand-btn'>{
+                                                                this.props.layerInfoIsCollpased ? '+' : '-'
+                                                            }</span>
                                                         </div>
-                                                        <div className='layer-config'>
-                                                            <SyntaxHighlighter language='json' style={github}>
-                                                            {JSON.stringify(layerConfig.config, null, 4)}
-                                                            </SyntaxHighlighter>
-                                                        </div>
+                                                        {
+                                                            this.props.layerInfoIsCollpased ? <span /> : <div className='layer-config'>
+                                                                <SyntaxHighlighter language='json' style={github}>
+                                                                {JSON.stringify(layerConfig.config, null, 4)}
+                                                                </SyntaxHighlighter>
+                                                            </div>
+                                                        }
                                                     </div>
                                                     <div className='output-container'>{
 

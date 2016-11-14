@@ -35,3 +35,20 @@ export function currentInputReducer(state = null, action) {
     }
 
 }
+
+export const setIsLayerInfoCollapsed = isCollapsed => ({
+    type: 'set-is-layer-info-collapsed',
+    isCollapsed
+});
+
+export function layerInfoIsCollapsedReducer(state = null, action) {
+
+    switch (action.type) {
+        case 'set-is-layer-info-collapsed':
+            return action.isCollapsed;
+
+        default:
+            return state;
+    }
+
+}
