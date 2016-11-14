@@ -93,14 +93,15 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     return app
 
-def run_app(app):
-    http_server = WSGIServer(('', 5000), app)
-    webbrowser.open_new('http://localhost:5000')
+def run_app(app, port=5000):
+    http_server = WSGIServer(('', port), app)
+    webbrowser.open_new('http://localhost:' + str(port))
     http_server.serve_forever()
 
-def launch(model, temp_folder='./tmp', port=5000):
+def launch(model, temp_folder='./tmp', input_folder='./', port=5000):
     return run_app(
-        get_app(model, temp_folder)
+        get_app(model, temp_folder, input_folder),
+        port
     )
 
 def get_output_name(temp_folder, layer_name, input_path, z_idx):

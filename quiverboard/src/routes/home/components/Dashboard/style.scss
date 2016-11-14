@@ -75,7 +75,7 @@
     left: 0;
     bottom: 0;
     z-index: 99;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.95);
     margin: 50px;
     @include simple-shadow();
     @include simple-transition();
@@ -88,6 +88,8 @@
         padding: 30px;
     }
     .layer-config {
+        max-height: 300px;
+        overflow: auto;
         pre {
             padding: 40px!important;
             background-color: rgba(0, 0, 0, 0.02)!important;
