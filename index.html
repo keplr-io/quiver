@@ -12,7 +12,7 @@
 
         .landing-head-section {
           text-align: center;
-          padding: 20px;
+          padding: 20px 40px;
           margin-top: 10%;
         }
 
@@ -25,17 +25,10 @@
 
         .quiver-title {
             font-size: 2em;
+            font-weight: lighter;
         }
 
-        .video-container {
-            width: 1280px;
-            height: 705px;
-            overflow: hidden;
-            border-radius: 5px;
-            margin: auto;
-        }
-
-        .video-container > iframe {
+        .header-video > iframe {
             margin-top: -10px;
         }
 
@@ -49,11 +42,24 @@
             opacity: 0.7;
         }
 
+
         .quiver-github-link:hover {
             text-decoration: none;
             opacity: 1;
         }
 
+        .header-video {
+          -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+          -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+          max-width: 1280px;
+          height: 705px;
+          background-color: #aaa;
+          margin: 25px auto;
+          border-radius: 3px;
+          overflow: hidden;
+          margin-top: 50px;
+          text-align: center; }
     </style>
   </head>
   <body>
@@ -67,7 +73,7 @@
 
     <a class='quiver-github-link' href="https://github.com/jakebian/quiver">View on GitHub</a>
 
-    <div class=video-container>
+    <div class=header-video>
         <iframe width="1280" height="720" src="https://www.youtube.com/embed/tgRW3BRi_FA?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
 
