@@ -1,3 +1,3 @@
 # Quiverboard
 
-Browser dashboarrd for quiver.
+Browser dashboard for quiver.
