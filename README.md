@@ -12,6 +12,7 @@ Interactive convnet features visualization for Keras
 [Video Demo](https://www.youtube.com/watch?edit=vd&v=tgRW3BRi_FA)
 
 1. Build your model in keras
+
     ```python
     model = Model(...)
     ```
