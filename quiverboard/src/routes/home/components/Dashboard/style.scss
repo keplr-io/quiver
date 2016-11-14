@@ -76,7 +76,7 @@
     bottom: 0;
     z-index: 99;
     background-color: rgba(255, 255, 255, 0.95);
-    margin: 50px;
+    margin: 20px;
     @include simple-shadow();
     @include simple-transition();
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -116,5 +116,28 @@
 
     &:hover {
         opacity: 1;
+    }
+}
+
+.predictions-container {
+    padding: 15px;
+}
+
+.prediction-container {
+    display: inline-block;
+    margin: 5px 15px;
+    background-color: #fff;
+    @include simple-shadow();
+    padding: 15px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    .confidence {
+        color: #1758c1
     }
 }

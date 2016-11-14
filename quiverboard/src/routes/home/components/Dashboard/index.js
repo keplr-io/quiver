@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
 import { loadModel } from '../../state/model';
 import { loadLayerData } from '../../state/layers';
-import { setCurrentLayer, setCurrentInput, setIsLayerInfoCollapsed } from '../../state/app';
 import { loadInputs } from '../../state/inputs';
+import { loadPredictions } from '../../state/predictions';
+
+import { setCurrentLayer, setCurrentInput, setIsLayerInfoCollapsed } from '../../state/app';
+
 import DashboardComponent from './component';
 
 export default connect(
@@ -10,6 +13,7 @@ export default connect(
         model: state.model,
         layers: state.layers,
         inputs: state.inputs,
+        predictions: state.predictions,
         currentLayer: state.currentLayer,
         currentInput: state.currentInput,
         isLayerLoading: state.isLayerLoading,
@@ -19,6 +23,7 @@ export default connect(
         loadModel,
         loadLayerData,
         loadInputs,
+        loadPredictions,
         setCurrentLayer,
         setCurrentInput,
         setIsLayerInfoCollapsed

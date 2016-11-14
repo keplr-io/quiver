@@ -14,10 +14,12 @@ export default class Dashboard extends Component {
         setCurrentLayer: PropTypes.func,
         setCurrentInput: PropTypes.func,
         setIsLayerInfoCollapsed: PropTypes.func,
+        loadPredictions: PropTypes.func,
 
         model: PropTypes.object,
         layers: PropTypes.object,
         inputs: PropTypes.array,
+        predictions: PropTypes.array,
         currentLayer: PropTypes.string,
         currentInput: PropTypes.string,
         isLayerLoading: PropTypes.bool,
@@ -60,6 +62,14 @@ export default class Dashboard extends Component {
                         )
                     }</div>
 
+                    <div className='predictions-container'>{
+                        this.props.predictions.map(prediction => (
+                            <div className='prediction-container'>{prediction[1].split('_').join(' ')} <span className='confidence'>({
+                                Math.round(prediction[2] * 1000000)/10000}%</span>)</div>
+                        ))
+                    }</div>
+
+
                     {
                         (() => {
 
@@ -74,6 +84,10 @@ export default class Dashboard extends Component {
                                         (() => {
                                             if (!this.props.currentLayer) {
                                                 return <div className='dash-message'> Select a layer. </div>;
+                                            }
+
+                                            if (this.lastInput !== this.props.currentInput) {
+                                                this.props.loadPredictions(this.props.currentInput);
                                             }
 
                                             if (this.lastLayer !== this.props.currentLayer || this.lastInput !== this.props.currentInput) {

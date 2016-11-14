@@ -8,9 +8,7 @@ export const loadLayerData = (layerName, inputName) =>
                 dispatch(updateLayerLoadingState(false));
                 return response.json();
             })
-            .catch(err => {
-                console.log(err);
-            })
+            .catch(err => console.log(err))
             .then(layerData => {
                 dispatch(updateLayer(layerName, layerData));
             });

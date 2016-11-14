@@ -43,24 +43,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "src/routes/home/components/Dashboard/component.js",
-			"settings":
-			{
-				"buffer_size": 7062,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/routes/home/components/Dashboard/style.scss",
-			"settings":
-			{
-				"buffer_size": 1985,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -123,8 +105,6 @@
 	"expanded_folders":
 	[
 		"/home/jake/projects/quiver/quiverboard",
-		"/home/jake/projects/quiver/quiverboard/src",
-		"/home/jake/projects/quiver/quiverboard/src/components",
 		"/home/jake/projects/quiver/quiverboard/src/components/Header",
 		"/home/jake/projects/quiver/quiverboard/src/routes",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home",
@@ -132,24 +112,24 @@
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/resource",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/state",
-		"/home/jake/projects/quiver/quiverboard/src/styles",
-		"/home/jake/projects/quiver/quiverboard/tests"
+		"/home/jake/projects/quiver/quiverboard/src/styles"
 	],
 	"file_history":
 	[
+		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/app.js",
+		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/index.js",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/style.scss",
-		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/component.js",
-		"/home/jake/projects/quiver/quiverboard/package.json",
 		"/home/jake/projects/quiver/quiverboard/src/components/ModelGraph/style.scss",
+		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/component.js",
+		"/home/jake/projects/quiver/quiverboard/README.md",
+		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/index.js",
+		"/home/jake/projects/quiver/quiverboard/package.json",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/mixins.scss",
 		"/home/jake/projects/quiver/quiverboard/src/components/ModelGraph/util.js",
 		"/home/jake/projects/quiver/quiverboard/src/components/ModelGraph/index.js",
-		"/home/jake/projects/quiver/quiverboard/src/routes/home/components/Dashboard/index.js",
 		"/home/jake/projects/quiver/quiverboard/src/index.html",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/layers.js",
-		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/index.js",
 		"/home/jake/projects/quiver/quiverboard/src/components/Header/Header.js",
-		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/app.js",
 		"/home/jake/projects/quiver/quiverboard/config/index.js",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/state/inputs.js",
 		"/home/jake/projects/quiver/quiverboard/src/routes/home/resource/index.js",
@@ -263,8 +243,7 @@
 		"/home/jake/picard/picard/.gitignore",
 		"/home/jake/picard/picard/model_building/graph.py",
 		"/home/jake/picard/picard/model_building/operators.py",
-		"/home/jake/picard/sandbox/graph_spec.py",
-		"/home/jake/picard/sandbox/graph-play.py"
+		"/home/jake/picard/sandbox/graph_spec.py"
 	],
 	"find":
 	{
@@ -287,6 +266,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"<spa",
 			"halogen",
 			"load",
 			"10",
@@ -413,8 +393,7 @@
 			"Input",
 			"operator_utils",
 			"graph_spec",
-			"operator_config",
-			"get_operator_comp"
+			"operator_config"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -432,69 +411,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/routes/home/components/Dashboard/component.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7062,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								115,
-								115
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 191.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/routes/home/components/Dashboard/style.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1985,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								909,
-								909
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -551,6 +469,34 @@
 				"src/routes/home/components/Dashboard/style.scss"
 			],
 			[
+				"style.sc",
+				"src/components/ModelGraph/style.scss"
+			],
+			[
+				"stye",
+				"src/routes/home/components/Dashboard/style.scss"
+			],
+			[
+				"stylescss",
+				"src/components/ModelGraph/style.scss"
+			],
+			[
+				"dashin",
+				"src/routes/home/components/Dashboard/index.js"
+			],
+			[
+				"component",
+				"src/routes/home/components/Dashboard/component.js"
+			],
+			[
+				"stateind",
+				"src/routes/home/state/index.js"
+			],
+			[
+				"app.j",
+				"src/routes/home/state/app.js"
+			],
+			[
 				"compo",
 				"src/routes/home/components/Dashboard/component.js"
 			],
@@ -563,16 +509,8 @@
 				"src/routes/home/components/Dashboard/component.js"
 			],
 			[
-				"component",
-				"src/routes/home/components/Dashboard/component.js"
-			],
-			[
 				"pack",
 				"package.json"
-			],
-			[
-				"stylescss",
-				"src/components/ModelGraph/style.scss"
 			],
 			[
 				"scss",
@@ -915,12 +853,12 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 875.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 665.0
 	},
 	"select_symbol":
 	{

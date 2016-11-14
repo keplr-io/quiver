@@ -14,7 +14,8 @@ from gevent.wsgi import WSGIServer
 
 from scipy.misc import imsave
 
-from util import deprocess_image, load_img
+from imagenet_utils import decode_predictions
+from util import deprocess_image, load_img, get_json
 from layer_result_generators import get_outputs_generator
 
 import tensorflow as tf
@@ -61,11 +62,11 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     def get_input_file(path):
         return send_from_directory(abspath(input_folder), path)
 
-    @app.route('/model', methods=['GET'])
+    @app.route('/model')
     def get_config():
         return jsonify(json.loads(model.to_json()))
 
-    @app.route('/layer/<layer_name>/<input_path>', methods=['GET'])
+    @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
 
         input_img = load_img(input_path, single_input_shape)
@@ -90,6 +91,18 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
                 imsave(filename, deprocessed)
 
         return jsonify(output_files)
+    @app.route('/predict/<input_path>')
+    def get_prediction(input_path):
+        input_img = load_img(input_path, single_input_shape)
+        with graph.as_default():
+            return jsonify(
+                json.loads(
+                    get_json(
+                        decode_predictions(model.predict(input_img))
+                    )
+                )
+            )
+
 
     return app
 
@@ -106,3 +119,5 @@ def launch(model, temp_folder='./tmp', input_folder='./', port=5000):
 
 def get_output_name(temp_folder, layer_name, input_path, z_idx):
     return temp_folder + '/' + layer_name + '_' + str(z_idx) + '_' + input_path + '.png'
+
+

@@ -35,6 +35,5 @@ This will launch the visualization at `localhost:5000`
 ```
 
 
-
 **Credits**
 This is essentially an implementation of the ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
