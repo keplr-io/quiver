@@ -1,4 +1,26 @@
-# Quiver: Interactive convnet features visualization for Keras
+# Quiver
+Interactive convnet features visualization for Keras
+
+
+![gzqll3](https://cloud.githubusercontent.com/assets/5866348/20253975/f3d56f14-a9e4-11e6-9693-9873a18df5d3.gif)
+
+
+
+
+**The quiver workflow**
+
+[Video Demo](https://www.youtube.com/watch?edit=vd&v=tgRW3BRi_FA)
+
+1. Build your model in keras
+    ```python
+    model = Model(...)
+    ```
+2. Launch the visualization dashboard with 1 line of code
+
+    ```python
+    quiver_engine.server.launch(model, input_folder='./imgs')
+    ```
+3. Explore layer activations on all the different images in your input folder.
 
 
 ## Quickstart
