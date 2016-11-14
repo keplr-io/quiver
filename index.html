@@ -13,7 +13,9 @@
         .landing-head-section {
           text-align: center;
           padding: 20px 40px;
+          margin: 0 auto;
           margin-top: 15%;
+          max-width: 1280px;
         }
 
         .details-section {
@@ -29,7 +31,11 @@
         }
 
         .header-video > iframe {
-            margin-top: -10px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
         }
 
         .quiver-github-link {
@@ -52,14 +58,11 @@
           -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
           -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
           box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
-          max-width: 1280px;
-          height: 705px;
-          background-color: #aaa;
-          margin: 25px auto;
-          border-radius: 3px;
-          overflow: hidden;
-          margin-top: 50px;
-          text-align: center; }
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 */
+          padding-top: 25px;
+          height: 0;
+        }
         pre {
           max-width: 90%;
         }
