@@ -68,6 +68,7 @@ This will launch the visualization at `localhost:5000`
 Check out this repository and run
 
 ```bash
+cd quiver_engine
 python setup.py develop
 ```
 
@@ -79,6 +80,13 @@ python setup.py develop
     export QUIVER_URL=localhost:5000 # or whatever you set your port to be
     npm start
 ```
+
+Note this will run your web application with webpack and hot reloading. If you don't care about that, or are only in this section because pip install somehow failed for you, you should tell it to simply build the javascript files instead
+
+```
+    npm run deploy:prod
+```
+
 
 ## Credits
 - This is essentially an implementation of some ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
