@@ -125,7 +125,7 @@ def get_output_name(temp_folder, layer_name, input_path, z_idx):
 
 def get_evaluation_context():
     if keras.backend.backend() == 'tensorflow':
-        import tensssorflow as tf
+        import tensorflow as tf
         return tf.get_default_graph()
 
     if keras.backend.backend() == 'theano':
