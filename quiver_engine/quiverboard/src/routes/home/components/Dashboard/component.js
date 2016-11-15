@@ -96,8 +96,15 @@ export default class Dashboard extends Component {
                                                 this.lastInput = this.props.currentInput;
                                             }
 
-                                            const layerConfig = this.props.model.config.layers.filter(
-                                                layer => layer.name === this.props.currentLayer
+                                            let layerConfig = (
+                                                this.props.model.class_name === 'Sequential'
+                                                    ? this.props.model.config
+                                                    : this.props.model.config.layers
+                                            ).filter(
+                                                layer => (
+                                                    this.props.model.class_name === 'Sequential' ?
+                                                    layer.config.name : layer.name
+                                                )=== this.props.currentLayer
                                             )[0];
 
                                             return (

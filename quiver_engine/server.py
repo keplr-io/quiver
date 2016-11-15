@@ -23,7 +23,7 @@ from layer_result_generators import get_outputs_generator
 
 
 def get_app(model, temp_folder='./tmp', input_folder='./'):
-    evaluation_context = get_evaluation_context()
+    get_evaluation_context = get_evaluation_context_getter()
     single_input_shape = model.get_input_shape_at(0)[1:3]
 
     app = Flask(__name__)
@@ -74,7 +74,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         input_img = load_img(input_path, single_input_shape)
         output_generator = get_outputs_generator(model, layer_name)
 
-        with evaluation_context:
+        with get_evaluation_context():
 
             layer_outputs = output_generator(input_img)[0]
             output_files = []
@@ -96,11 +96,13 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
         input_img = load_img(input_path, single_input_shape)
-        with graph.as_default():
+        with get_evaluation_context():
             return jsonify(
                 json.loads(
                     get_json(
-                        decode_predictions(model.predict(input_img))
+                        decode_predictions(
+                            model.predict(input_img)
+                        )
                     )
                 )
             )
@@ -122,10 +124,10 @@ def launch(model, temp_folder='./tmp', input_folder='./', port=5000):
 def get_output_name(temp_folder, layer_name, input_path, z_idx):
     return temp_folder + '/' + layer_name + '_' + str(z_idx) + '_' + input_path + '.png'
 
-def get_evaluation_context():
+def get_evaluation_context_getter():
     if keras.backend.backend() == 'tensorflow':
         import tensorflow as tf
-        return tf.get_default_graph()
+        return tf.get_default_graph().as_default
 
     if keras.backend.backend() == 'theano':
-        return contextmanager(lambda: (yield))()
+        return contextmanager(lambda: (yield))
