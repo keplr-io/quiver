@@ -32,7 +32,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     def home():
         return send_from_directory(
             join(
-                dirname(dirname(abspath(__file__))),
+                dirname(abspath(__file__)),
                 'quiverboard/dist'
             ),
             'index.html'
@@ -41,7 +41,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     @app.route('/<path>')
     def get_board_files(path):
         return send_from_directory(join(
-            dirname(dirname(abspath(__file__))),
+            dirname(abspath(__file__)),
             'quiverboard/dist'
         ), path)
 
