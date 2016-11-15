@@ -1,10 +1,13 @@
 import json
 import re
+from contextlib import contextmanager
+
 from os import listdir
 from os.path import abspath, relpath, dirname, join
 import webbrowser
 
 import numpy as np
+import keras
 
 from flask import Flask, send_from_directory
 from flask.json import jsonify
@@ -18,11 +21,10 @@ from imagenet_utils import decode_predictions
 from util import deprocess_image, load_img, get_json
 from layer_result_generators import get_outputs_generator
 
-import tensorflow as tf
-graph = tf.get_default_graph()
 
 def get_app(model, temp_folder='./tmp', input_folder='./'):
-    single_input_shape = model.inputs[0].get_shape()[1:3]
+    evaluation_context = get_evaluation_context()
+    single_input_shape = model.get_input_shape_at(0)[1:3]
 
     app = Flask(__name__)
     app.threaded = True
@@ -72,7 +74,8 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         input_img = load_img(input_path, single_input_shape)
         output_generator = get_outputs_generator(model, layer_name)
 
-        with graph.as_default():
+        import tensorflow as tf
+        with evaluation_context:
 
             layer_outputs = output_generator(input_img)[0]
             output_files = []
@@ -120,4 +123,10 @@ def launch(model, temp_folder='./tmp', input_folder='./', port=5000):
 def get_output_name(temp_folder, layer_name, input_path, z_idx):
     return temp_folder + '/' + layer_name + '_' + str(z_idx) + '_' + input_path + '.png'
 
+def get_evaluation_context():
+    if keras.backend.backend() == 'tensorflow':
+        import tensssorflow as tf
+        return tf.get_default_graph()
 
+    if keras.backend.backend() == 'theano':
+        return contextmanager(lambda: (yield))()
