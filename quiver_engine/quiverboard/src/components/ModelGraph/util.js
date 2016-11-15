@@ -66,8 +66,9 @@ export function getSequentialCytoscapeGraph(kerasGraph, prefix = '') {
         kerasGraph.config.map(
             (layer) => ({
                 data: {
-                    id: prefix + '.' + layer.config.name,
-                    data: layer
+                    id: layer.config.name,
+                    data: layer.config,
+                    shape: layer.class_name === 'Convolution2D' ? 'roundrectangle' : 'ellipse'
                 }
             })
         )
@@ -82,14 +83,14 @@ export function getSequentialCytoscapeGraph(kerasGraph, prefix = '') {
                     ? [
                         {
                             data: {
-                                id: prefix + '.' + layer.config.name + '-' + linksData.lastNodeId,
+                                id: layer.config.name + '-' + linksData.lastNodeId,
                                 source: linksData.lastNodeId,
-                                target: prefix + '.' + layer.config.name
+                                target: layer.config.name
                             }
                         }
                     ] : []
                 ),
-                lastNodeId: prefix + '.' + layer.config.name
+                lastNodeId: layer.config.name
             }
         ), {
             links: [],
