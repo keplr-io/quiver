@@ -74,7 +74,6 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         input_img = load_img(input_path, single_input_shape)
         output_generator = get_outputs_generator(model, layer_name)
 
-        import tensorflow as tf
         with evaluation_context:
 
             layer_outputs = output_generator(input_img)[0]
