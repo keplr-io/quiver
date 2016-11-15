@@ -83,5 +83,6 @@ python setup.py develop
 ## Credits
 - This is essentially an implementation of some ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
 - A lot of the pre/pos/de processing code was taken from [here](https://github.com/fchollet/deep-learning-models) and other writings of [fchollet](https://github.com/fchollet).
+- The dashboard makes use of [react-redux-starter-kit](https://github.com/davezuko/react-redux-starter-kit)
 
 
