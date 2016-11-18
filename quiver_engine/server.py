@@ -24,7 +24,16 @@ from layer_result_generators import get_outputs_generator
 
 def get_app(model, temp_folder='./tmp', input_folder='./'):
     get_evaluation_context = get_evaluation_context_getter()
-    single_input_shape = model.get_input_shape_at(0)[1:3]
+
+    if keras.backend.backend() == 'tensorflow':
+        single_input_shape = model.get_input_shape_at(0)[1:3]
+        input_channels = model.get_input_shape_at(0)[3]
+    elif keras.backend.backend() == 'theano':
+        single_input_shape = model.get_input_shape_at(0)[2:4]
+        input_channels = model.get_input_shape_at(0)[1]
+    else:
+        single_input_shape = model.get_input_shape_at(0)[2:4]
+        input_channels = model.get_input_shape_at(0)[1]
 
     app = Flask(__name__)
     app.threaded = True
@@ -50,11 +59,10 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     @app.route('/inputs')
     def get_inputs():
         image_regex = re.compile(r".*\.(jpg|png|gif)$")
+        files = [filename for filename in listdir(input_folder) if image_regex.match(filename) != None ]
+        return jsonify(files)
 
-        return jsonify([
-            filename for filename in listdir(input_folder)
-            if image_regex.match(filename) != None
-        ])
+
 
     @app.route('/temp-file/<path>')
     def get_temp_file(path):
@@ -70,8 +78,9 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
+        is_grayscale = (True if input_channels == 1 else False)
+        input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
 
-        input_img = load_img(input_path, single_input_shape)
         output_generator = get_outputs_generator(model, layer_name)
 
         with get_evaluation_context():
@@ -79,8 +88,10 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
             layer_outputs = output_generator(input_img)[0]
             output_files = []
 
+            if keras.backend.backend() == 'theano':
+                #correct for channel location difference betwen TF and Theano
+                layer_outputs = np.rollaxis(layer_outputs, 0,3)
             for z in range(0, layer_outputs.shape[2]):
-
                 img = layer_outputs[:, :, z]
                 deprocessed = deprocess_image(img)
                 filename = get_output_name(temp_folder, layer_name, input_path, z)
@@ -95,7 +106,8 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         return jsonify(output_files)
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
-        input_img = load_img(input_path, single_input_shape)
+        is_grayscale = (True if input_channels == 1 else False)
+        input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
             return jsonify(
                 json.loads(
