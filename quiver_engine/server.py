@@ -31,9 +31,6 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     elif keras.backend.backend() == 'theano':
         single_input_shape = model.get_input_shape_at(0)[2:4]
         input_channels = model.get_input_shape_at(0)[1]
-    else:
-        single_input_shape = model.get_input_shape_at(0)[2:4]
-        input_channels = model.get_input_shape_at(0)[1]
 
     app = Flask(__name__)
     app.threaded = True
@@ -59,8 +56,11 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
     @app.route('/inputs')
     def get_inputs():
         image_regex = re.compile(r".*\.(jpg|png|gif)$")
-        files = [filename for filename in listdir(input_folder) if image_regex.match(filename) != None ]
-        return jsonify(files)
+
+        return jsonify([
+            filename for filename in listdir(input_folder)
+            if image_regex.match(filename) != None
+        ])
 
 
 
@@ -78,7 +78,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
 
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
-        is_grayscale = (True if input_channels == 1 else False)
+        is_grayscale = (input_channels == 1)
         input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
 
         output_generator = get_outputs_generator(model, layer_name)
@@ -106,7 +106,7 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
         return jsonify(output_files)
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
-        is_grayscale = (True if input_channels == 1 else False)
+        is_grayscale = (input_channels == 1)
         input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
             return jsonify(
