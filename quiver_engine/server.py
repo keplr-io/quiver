@@ -2,6 +2,7 @@ import json
 import re
 from contextlib import contextmanager
 
+import os
 from os import listdir
 from os.path import abspath, relpath, dirname, join
 import webbrowser
@@ -17,12 +18,11 @@ from gevent.wsgi import WSGIServer
 
 from scipy.misc import imsave
 
-from imagenet_utils import decode_predictions
-from util import deprocess_image, load_img, get_json
+from util import deprocess_image, load_img, load_img_scaled, get_json
 from layer_result_generators import get_outputs_generator
 
 
-def get_app(model, temp_folder='./tmp', input_folder='./'):
+def get_app(model, classes, top, temp_folder, input_folder):
     get_evaluation_context = get_evaluation_context_getter()
     single_input_shape = model.get_input_shape_at(0)[1:3]
 
@@ -93,9 +93,21 @@ def get_app(model, temp_folder='./tmp', input_folder='./'):
                 imsave(filename, deprocessed)
 
         return jsonify(output_files)
+
+    def decode_predictions(preds):
+        if len(preds.shape) != 2 or preds.shape[1] != len(classes):
+            raise ValueError('you need to provide same number of classes as model prediction output ' + \
+                             'model returns %s predictions, while there are %s classes' % (preds.shape[1], len(classes)))
+        results = []
+        for pred in preds:
+            top_indices = pred.argsort()[-top:][::-1]
+            result = [("", classes[i], pred[i]) for i in top_indices]
+            results.append(result)
+        return results
+
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
-        input_img = load_img(input_path, single_input_shape)
+        input_img = load_img_scaled(input_path, single_input_shape)
         with get_evaluation_context():
             return jsonify(
                 json.loads(
@@ -115,9 +127,10 @@ def run_app(app, port=5000):
     webbrowser.open_new('http://localhost:' + str(port))
     http_server.serve_forever()
 
-def launch(model, temp_folder='./tmp', input_folder='./', port=5000):
+def launch(model, classes, top=5, temp_folder='./tmp', input_folder='./', port=5000):
+    os.system('mkdir -p %s' % temp_folder)
     return run_app(
-        get_app(model, temp_folder, input_folder),
+        get_app(model, classes, top, temp_folder, input_folder),
         port
     )
 
