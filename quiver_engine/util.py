@@ -21,6 +21,12 @@ def deprocess_image(x):
 
     return x
 
+def load_img_scaled(input_path, target_shape):
+    return np.expand_dims(
+        image.img_to_array(image.load_img(input_path, target_size=target_shape)) / 255.0,
+        axis=0
+    )
+
 def load_img(input_path, target_shape):
     img = image.load_img(input_path, target_size=target_shape)
 
