@@ -99,13 +99,14 @@ How to Cite Quiver
 
 Please cite Quiver if it helps your research. Here is an example BibTeX entry:
 
-@misc{bian2016jake,
+```misc{bian2016jake,
   title={Quiver},
   author={Bian, Jake},
   year={2016},
   publisher={GitHub},
-  howpublished={\url{https://github.com/jakebian/quiver}},
+  howpublished={\url{ttps://github.com/jakebian/quiver}},
 }
+```
 
 ## Credits
 - This is essentially an implementation of some ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
