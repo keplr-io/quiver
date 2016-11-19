@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import json
 import re
 from contextlib import contextmanager
@@ -68,11 +70,12 @@ def get_app(model, html_base_dir, temp_folder='./tmp', input_folder='./'):
     @app.route('/inputs')
     def get_inputs():
         image_regex = re.compile(r".*\.(jpg|png|gif)$")
-
         return jsonify([
-                           filename for filename in listdir(input_folder)
-                           if image_regex.match(filename) is None
-                           ])
+            filename for filename in listdir(
+                abspath(input_folder)
+            )
+            if image_regex.match(filename) is not None
+        ])
 
 
 
@@ -91,7 +94,7 @@ def get_app(model, html_base_dir, temp_folder='./tmp', input_folder='./'):
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
         is_grayscale = (input_channels == 1)
-        input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
+        input_img = load_img(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
 
         output_generator = get_outputs_generator(model, layer_name)
 
@@ -116,6 +119,7 @@ def get_app(model, html_base_dir, temp_folder='./tmp', input_folder='./'):
                 imsave(filename, deprocessed)
 
         return jsonify(output_files)
+
 
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
