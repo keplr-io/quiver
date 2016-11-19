@@ -126,7 +126,7 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
         is_grayscale = (input_channels == 1)
-        input_img = load_img_scaled(input_path, single_input_shape, grayscale=is_grayscale)
+        input_img = load_img_scaled(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
             return jsonify(
                 json.loads(
