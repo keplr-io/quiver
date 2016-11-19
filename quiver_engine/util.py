@@ -21,15 +21,12 @@ def deprocess_image(x):
 
     return x
 
-def load_img(input_path, target_shape):
-    img = image.load_img(input_path, target_size=target_shape)
-
-    return preprocess_input(
-        np.expand_dims(
-            image.img_to_array(img),
-            axis=0
-        )
-    )
+def load_img(input_path, target_shape, grayscale=False):
+    img = image.load_img(input_path, target_size=target_shape, grayscale=grayscale)
+    img_arr = np.expand_dims(image.img_to_array(img), axis=0)
+    if not grayscale:
+        img_arr = preprocess_input(img_arr)
+    return img_arr
 
 def get_json(obj):
     return json.dumps(obj, default=get_json_type)
@@ -46,5 +43,3 @@ def get_json_type(obj):
         return obj.__name__
 
     raise TypeError('Not JSON Serializable')
-
-
