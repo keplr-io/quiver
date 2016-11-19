@@ -142,7 +142,7 @@ def run_app(app, port=5000):
 
 
 def launch(model, temp_folder='./tmp', input_folder='./', port=5000, html_base_dir=None):
-    html_base_dir = html_base_dir if html_base_dir is not None else dirname(dirname(abspath(__file__)))
+    html_base_dir = html_base_dir if html_base_dir is not None else dirname(abspath(__file__))
     print('Starting webserver from:', html_base_dir)
     assert os.path.exists(os.path.join(html_base_dir, "quiverboard")), "Quiverboard must be a " \
                                                                        "subdirectory of {}".format(html_base_dir)
