@@ -99,7 +99,8 @@ How to Cite Quiver
 
 Please cite Quiver if it helps your research. Here is an example BibTeX entry:
 
-```misc{bian2016jake,
+```
+misc{bian2016jake,
   title={Quiver},
   author={Bian, Jake},
   year={2016},
