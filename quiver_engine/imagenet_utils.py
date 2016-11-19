@@ -1,3 +1,5 @@
+from __future__ import absolute_import, division, print_function
+
 '''
     From https://github.com/fchollet/deep-learning-models
 '''

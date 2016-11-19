@@ -1,4 +1,6 @@
 # Quiver
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/quiverEngine/Lobby)
+
 Interactive convnet features visualization for Keras
 
 
@@ -95,8 +97,21 @@ Note this will run your web application with webpack and hot reloading. If you d
 
 
 ## Credits
+
 - This is essentially an implementation of some ideas of [deepvis](https://github.com/yosinski/deep-visualization-toolbox) and related works.
 - A lot of the pre/pos/de processing code was taken from [here](https://github.com/fchollet/deep-learning-models) and other writings of [fchollet](https://github.com/fchollet).
 - The dashboard makes use of [react-redux-starter-kit](https://github.com/davezuko/react-redux-starter-kit)
+
+## Citing Quiver
+
+```
+misc{bianquiver,
+  title={Quiver},
+  author={Bian, Jake},
+  year={2016},
+  publisher={GitHub},
+  howpublished={\url{https://github.com/jakebian/quiver}},
+}
+```
 
 
