@@ -95,7 +95,7 @@ Note this will run your web application with webpack and hot reloading. If you d
     npm run deploy:prod
 ```
 
-How to Cite Quiver
+**How to Cite Quiver**
 
 Please cite Quiver if it helps your research. Here is an example BibTeX entry:
 
