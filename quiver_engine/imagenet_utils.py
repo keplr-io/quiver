@@ -33,7 +33,7 @@ def preprocess_input(x, dim_ordering='default'):
     return x
 
 
-def decode_predictions(preds, top=5):
+def decode_imagenet_predictions(preds, top):
     global CLASS_INDEX
     if len(preds.shape) != 2 or preds.shape[1] != 1000:
         raise ValueError('`decode_predictions` expects '

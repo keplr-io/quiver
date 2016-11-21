@@ -20,16 +20,19 @@ from gevent.wsgi import WSGIServer
 
 from scipy.misc import imsave
 
-from quiver_engine.imagenet_utils import decode_predictions
+from quiver_engine.imagenet_utils import decode_imagenet_predictions
 
-from quiver_engine.util import deprocess_image, load_img, get_json
+from quiver_engine.util import deprocess_image, load_img, load_img_scaled, get_json
 from quiver_engine.layer_result_generators import get_outputs_generator
 
 
-def get_app(model, html_base_dir, temp_folder='./tmp', input_folder='./'):
+def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folder='./'):
     """
     The base of the Flask application to be run
     :param model: the model to show
+    :param classes: list of names of output classes to show in the GUI. if None passed -
+        ImageNet classes will be used
+    :param top: number of top predictions to show in the GUI
     :param html_base_dir: the directory for the HTML (usually inside the packages,
         quiverboard/dist must be a subdirectory)
     :param temp_folder: where the temporary image data should be saved
@@ -120,17 +123,16 @@ def get_app(model, html_base_dir, temp_folder='./tmp', input_folder='./'):
 
         return jsonify(output_files)
 
-
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
         is_grayscale = (input_channels == 1)
-        input_img = load_img(input_path, single_input_shape, grayscale=is_grayscale)
+        input_img = load_img_scaled(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
             return jsonify(
                 json.loads(
                     get_json(
                         decode_predictions(
-                            model.predict(input_img)
+                            model.predict(input_img), classes, top
                         )
                     )
                 )
@@ -145,7 +147,9 @@ def run_app(app, port=5000):
     http_server.serve_forever()
 
 
-def launch(model, temp_folder='./tmp', input_folder='./', port=5000, html_base_dir=None):
+def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./', port=5000, html_base_dir=None):
+    os.system('mkdir -p %s' % temp_folder)
+
     html_base_dir = html_base_dir if html_base_dir is not None else dirname(abspath(__file__))
     print('Starting webserver from:', html_base_dir)
     assert os.path.exists(os.path.join(html_base_dir, "quiverboard")), "Quiverboard must be a " \
@@ -156,7 +160,7 @@ def launch(model, temp_folder='./tmp', input_folder='./', port=5000, html_base_d
         os.path.join(html_base_dir, "quiverboard", "dist", "index.html")), "Index.html missing"
 
     return run_app(
-        get_app(model, html_base_dir=html_base_dir,
+        get_app(model, classes, top, html_base_dir=html_base_dir,
                 temp_folder=temp_folder, input_folder=input_folder),
         port
     )
@@ -164,6 +168,23 @@ def launch(model, temp_folder='./tmp', input_folder='./', port=5000, html_base_d
 
 def get_output_name(temp_folder, layer_name, input_path, z_idx):
     return temp_folder + '/' + layer_name + '_' + str(z_idx) + '_' + input_path + '.png'
+
+
+def decode_predictions(preds, classes, top):
+    if not classes:
+        print("Warning! you didn't pass your own set of classes for the model therefore imagenet classes are used")
+        return decode_imagenet_predictions(preds, top)
+
+    if len(preds.shape) != 2 or preds.shape[1] != len(classes):
+        raise ValueError('you need to provide same number of classes as model prediction output ' + \
+                         'model returns %s predictions, while there are %s classes' % (
+                             preds.shape[1], len(classes)))
+    results = []
+    for pred in preds:
+        top_indices = pred.argsort()[-top:][::-1]
+        result = [("", classes[i], pred[i]) for i in top_indices]
+        results.append(result)
+    return results
 
 def get_evaluation_context_getter():
     if keras.backend.backend() == 'tensorflow':

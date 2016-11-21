@@ -21,7 +21,7 @@ Interactive convnet features visualization for Keras
 2. Launch the visualization dashboard with 1 line of code
 
     ```python
-    quiver_engine.server.launch(model, input_folder='./imgs')
+    quiver_engine.server.launch(model, classes=['cat','dog'], input_folder='./imgs')
     ```
 3. Explore layer activations on all the different images in your input folder.
 
@@ -57,6 +57,10 @@ This will launch the visualization at `localhost:5000`
 ```python
     server.launch(
         model, # a Keras Model
+
+        classes, # list of output classes from the model to present (if not specified 1000 ImageNet classes will be used)
+
+        top, # number of top predictions to show in the gui (default 5)
 
         # where to store temporary files generatedby quiver (e.g. image files of layers)
         temp_folder='./tmp',
