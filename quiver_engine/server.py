@@ -42,10 +42,10 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
 
     get_evaluation_context = get_evaluation_context_getter()
 
-    if keras.backend.backend() == 'tensorflow':
+    if keras.backend.image_dim_ordering() == 'tf':
         single_input_shape = model.get_input_shape_at(0)[1:3]
         input_channels = model.get_input_shape_at(0)[3]
-    elif keras.backend.backend() == 'theano':
+    elif keras.backend.image_dim_ordering() == 'th':
         single_input_shape = model.get_input_shape_at(0)[2:4]
         input_channels = model.get_input_shape_at(0)[1]
 
