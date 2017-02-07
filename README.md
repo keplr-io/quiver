@@ -37,7 +37,7 @@ Interactive convnet features visualization for Keras
 If you want the latest version from the repo
 
 ```bash
-    pip install git+git://github.com/jakebian/quiver.git
+    pip install git+git://github.com/keplr-io/quiver.git
 ```
 
 
@@ -114,7 +114,7 @@ misc{bianquiver,
   author={Bian, Jake},
   year={2016},
   publisher={GitHub},
-  howpublished={\url{https://github.com/jakebian/quiver}},
+  howpublished={\url{https://github.com/keplr-io/quiver}},
 }
 ```
 
