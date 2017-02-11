@@ -33,7 +33,7 @@ def preprocess_input(x, dim_ordering='default'):
     return x
 
 
-def decode_imagenet_predictions(preds, top):
+def decode_imagenet_predictions(preds, top=5):
     global CLASS_INDEX
     if len(preds.shape) != 2 or preds.shape[1] != 1000:
         raise ValueError('`decode_predictions` expects '
@@ -46,6 +46,7 @@ def decode_imagenet_predictions(preds, top):
                          cache_subdir='models')
         CLASS_INDEX = json.load(open(fpath))
     results = []
+
     for pred in preds:
         top_indices = pred.argsort()[-top:][::-1]
         result = [tuple(CLASS_INDEX[str(i)]) + (pred[i],) for i in top_indices]

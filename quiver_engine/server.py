@@ -65,10 +65,13 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
 
     @app.route('/<path>')
     def get_board_files(path):
-        return send_from_directory(join(
-            html_base_dir,
-            'quiverboard/dist'
-        ), path)
+        return send_from_directory(
+            join(
+                html_base_dir,
+                'quiverboard/dist'
+            ),
+            path
+        )
 
     @app.route('/inputs')
     def get_inputs():
@@ -79,8 +82,6 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
             )
             if image_regex.match(filename) is not None
         ])
-
-
 
     @app.route('/temp-file/<path>')
     def get_temp_file(path):
@@ -96,37 +97,39 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
 
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
-        is_grayscale = (input_channels == 1)
-        input_img = load_img(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
+
+        input_img = load_img(
+            join(abspath(input_folder), input_path),
+            single_input_shape,
+            grayscale=input_channels == 1
+        )
 
         output_generator = get_outputs_generator(model, layer_name)
+
+        def save_img(idx):
+            filename = get_output_name(temp_folder, layer_name, input_path, idx)
+            imsave(filename, deprocess_image(layer_outputs[:, :, idx]))
+            return relpath(filename, abspath(temp_folder))
 
         with get_evaluation_context():
 
             layer_outputs = output_generator(input_img)[0]
-            output_files = []
 
             if keras.backend.backend() == 'theano':
                 #correct for channel location difference betwen TF and Theano
                 layer_outputs = np.rollaxis(layer_outputs, 0,3)
-            for z in range(0, layer_outputs.shape[2]):
-                img = layer_outputs[:, :, z]
-                deprocessed = deprocess_image(img)
-                filename = get_output_name(temp_folder, layer_name, input_path, z)
-                output_files.append(
-                    relpath(
-                        filename,
-                        abspath(temp_folder)
-                    )
-                )
-                imsave(filename, deprocessed)
+
+            output_files = [
+                save_img(z) for z in range(0, layer_outputs.shape[2])
+            ]
+
 
         return jsonify(output_files)
 
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
         is_grayscale = (input_channels == 1)
-        input_img = load_img_scaled(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
+        input_img = load_img(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
             return jsonify(
                 json.loads(
