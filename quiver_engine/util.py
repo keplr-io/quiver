@@ -2,13 +2,50 @@ from __future__ import absolute_import, division, print_function
 import json
 import numpy as np
 from keras.preprocessing import image
-from quiver_engine.imagenet_utils import preprocess_input
+import keras.backend as K
+from contextlib import contextmanager
+from quiver_engine.imagenet_utils import preprocess_input, decode_imagenet_predictions
 
-'''
-    From:
-    https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html
-'''
+def get_evaluation_context():
+    return get_evaluation_context_getter()()
 
+def get_evaluation_context_getter():
+    if K.backend() == 'tensorflow':
+        import tensorflow as tf
+        return tf.get_default_graph().as_default
+
+    if K.backend() == 'theano':
+        return contextmanager(lambda: (yield))
+
+def get_input_config(model):
+    '''
+        returns a tuple (inputDimensions, numChannels)
+    '''
+
+    return (
+        model.get_input_shape_at(0)[2:4],
+        model.get_input_shape_at(0)[1]
+    ) if K.image_dim_ordering() == 'th' else (
+        #tf ordering
+        model.get_input_shape_at(0)[1:3],
+        model.get_input_shape_at(0)[3]
+    )
+
+def decode_predictions(preds, classes, top):
+    if not classes:
+        print("Warning! you didn't pass your own set of classes for the model therefore imagenet classes are used")
+        return decode_imagenet_predictions(preds, top)
+
+    if len(preds.shape) != 2 or preds.shape[1] != len(classes):
+        raise ValueError('you need to provide same number of classes as model prediction output ' + \
+                         'model returns %s predictions, while there are %s classes' % (
+                             preds.shape[1], len(classes)))
+    results = []
+    for pred in preds:
+        top_indices = pred.argsort()[-top:][::-1]
+        result = [("", classes[i], pred[i]) for i in top_indices]
+        results.append(result)
+    return results
 
 # util function to convert a tensor into a valid image
 def deprocess_image(x):
