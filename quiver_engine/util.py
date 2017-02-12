@@ -5,6 +5,16 @@ from keras.preprocessing import image
 import keras.backend as K
 from contextlib import contextmanager
 from quiver_engine.imagenet_utils import preprocess_input, decode_imagenet_predictions
+from os import path
+
+def validate_launch(html_base_dir):
+    print('Starting webserver from:', html_base_dir)
+    assert path.exists(path.join(html_base_dir, 'quiverboard')), 'Quiverboard must be a ' \
+                                                                       'subdirectory of {}'.format(html_base_dir)
+    assert path.exists(path.join(html_base_dir, 'quiverboard', 'dist')), 'Dist must be a ' \
+                                                                               'subdirectory of quiverboard'
+    assert path.exists(
+        path.join(html_base_dir, 'quiverboard', 'dist', 'index.html')), 'Index.html missing'
 
 def get_evaluation_context():
     return get_evaluation_context_getter()()
@@ -74,9 +84,14 @@ def load_img(input_path, target_shape, grayscale=False):
     return img_arr
 
 
+def get_jsonable_obj(obj):
+    return json.loads(get_json(obj))
+
 def get_json(obj):
     return json.dumps(obj, default=get_json_type)
 
+def safe_jsonnify(obj):
+    return jsonify(get_jsonable_obj(obj))
 
 def get_json_type(obj):
 

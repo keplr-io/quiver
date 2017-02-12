@@ -1,10 +1,8 @@
 from __future__ import print_function
 
 import json
-import re
 
 import os
-from os import listdir
 from os.path import abspath, dirname, join
 import webbrowser
 
@@ -15,10 +13,12 @@ from flask_cors import CORS
 from gevent.wsgi import WSGIServer
 
 from quiver_engine.util import (
-    load_img, get_json, decode_predictions,
-    get_input_config, get_evaluation_context
+    load_img, safe_jsonnify, decode_predictions,
+    get_input_config, get_evaluation_context,
+    validate_launch
 )
 
+from quiver_engine.file_utils import list_img_files
 from quiver_engine.vis_utils import save_layer_outputs
 
 
@@ -42,6 +42,11 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
     app.threaded = True
     CORS(app)
 
+    '''
+        Static Routes
+    '''
+
+
     @app.route('/')
     def home():
         return send_from_directory(
@@ -56,17 +61,6 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
             path
         )
 
-    @app.route('/inputs')
-    def get_inputs():
-        image_regex = re.compile(r'.*\.(jpg|png|gif)$')
-        return jsonify([
-            filename
-            for filename in listdir(
-                abspath(input_folder)
-            )
-            if image_regex.match(filename) is not None
-        ])
-
     @app.route('/temp-file/<path>')
     def get_temp_file(path):
         return send_from_directory(abspath(temp_folder), path)
@@ -75,9 +69,20 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
     def get_input_file(path):
         return send_from_directory(abspath(input_folder), path)
 
+
+
+    '''
+        Computations
+    '''
+
     @app.route('/model')
     def get_config():
         return jsonify(json.loads(model.to_json()))
+
+
+    @app.route('/inputs')
+    def get_inputs():
+        return jsonify(list_img_files(input_folder))
 
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
@@ -97,16 +102,18 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
 
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
-        is_grayscale = (input_channels == 1)
-        input_img = load_img(join(abspath(input_folder), input_path), single_input_shape, grayscale=is_grayscale)
         with get_evaluation_context():
-            return jsonify(
-                json.loads(
-                    get_json(
-                        decode_predictions(
-                            model.predict(input_img), classes, top
+            return safe_jsonnify(
+                decode_predictions(
+                    model.predict(
+                        load_img(
+                            join(abspath(input_folder), input_path),
+                            single_input_shape,
+                            grayscale=(input_channels == 1)
                         )
-                    )
+                    ),
+                    classes,
+                    top
                 )
             )
 
@@ -118,21 +125,19 @@ def run_app(app, port=5000):
     webbrowser.open_new('http://localhost:' + str(port))
     http_server.serve_forever()
 
-
 def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./', port=5000, html_base_dir=None):
     os.system('mkdir -p %s' % temp_folder)
 
     html_base_dir = html_base_dir if html_base_dir is not None else dirname(abspath(__file__))
-    print('Starting webserver from:', html_base_dir)
-    assert os.path.exists(os.path.join(html_base_dir, 'quiverboard')), 'Quiverboard must be a ' \
-                                                                       'subdirectory of {}'.format(html_base_dir)
-    assert os.path.exists(os.path.join(html_base_dir, 'quiverboard', 'dist')), 'Dist must be a ' \
-                                                                               'subdirectory of quiverboard'
-    assert os.path.exists(
-        os.path.join(html_base_dir, 'quiverboard', 'dist', 'index.html')), 'Index.html missing'
+
+    validate_launch(html_base_dir)
 
     return run_app(
-        get_app(model, classes, top, html_base_dir=html_base_dir,
-                temp_folder=temp_folder, input_folder=input_folder),
+        get_app(
+            model, classes, top,
+            html_base_dir=html_base_dir,
+            temp_folder=temp_folder,
+            input_folder=input_folder
+        ),
         port
     )
