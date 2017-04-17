@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 import json
+from flask.json import jsonify
 import numpy as np
 from keras.preprocessing import image
 import keras.backend as K
@@ -90,7 +91,7 @@ def get_jsonable_obj(obj):
 def get_json(obj):
     return json.dumps(obj, default=get_json_type)
 
-def safe_jsonnify(obj):
+def safe_jsonify(obj):
     return jsonify(get_jsonable_obj(obj))
 
 def get_json_type(obj):

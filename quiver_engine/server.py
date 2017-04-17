@@ -13,7 +13,7 @@ from flask_cors import CORS
 from gevent.wsgi import WSGIServer
 
 from quiver_engine.util import (
-    load_img, safe_jsonnify, decode_predictions,
+    load_img, safe_jsonify, decode_predictions,
     get_input_config, get_evaluation_context,
     validate_launch
 )
@@ -103,7 +103,7 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
     @app.route('/predict/<input_path>')
     def get_prediction(input_path):
         with get_evaluation_context():
-            return safe_jsonnify(
+            return safe_jsonify(
                 decode_predictions(
                     model.predict(
                         load_img(
