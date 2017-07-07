@@ -1,8 +1,17 @@
 from setuptools import setup, find_packages
 
+tensorflow_packages = ['tensorflow']
+try:
+    import tensorflow
+    print('tensorflow already installed, skipping dependency')
+    tensorflow_packages = []
+except ImportError:
+    pass
+
+
 setup(
     name='quiver_engine',
-    version="0.1.4.1.4",
+    version="0.1.4.1.5",
     author="Jake Bian",
     author_email="jake@keplr.io",
     description=("Interactive per-layer visualization for convents in keras"),
@@ -13,11 +22,10 @@ setup(
     package_data={'quiver_engine': 'quiverboard/dist/*'},
     install_requires=[
         'keras',
-        'tensorflow',
         'flask',
         'flask_cors',
         'gevent',
         'numpy',
         'pillow'
-    ]
+    ] + tensorflow_packages
 )
