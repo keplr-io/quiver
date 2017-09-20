@@ -1,3 +1,4 @@
+import os
 from __future__ import absolute_import, division, print_function
 import json
 from flask.json import jsonify
@@ -7,6 +8,7 @@ import keras.backend as K
 from contextlib import contextmanager
 from quiver_engine.imagenet_utils import preprocess_input, decode_imagenet_predictions
 from os import path
+
 
 def validate_launch(html_base_dir):
     print('Starting webserver from:', html_base_dir)
@@ -77,11 +79,12 @@ def load_img_scaled(input_path, target_shape, grayscale=False):
         axis=0
     )
 
-def load_img(input_path, target_shape, grayscale=False):
-    img = image.load_img(input_path, target_size=target_shape, grayscale=grayscale)
+def load_img(input_path, target_shape, grayscale=False, mean=None, std=None):
+    img = image.load_img(input_path, target_size=target_shape,
+                         grayscale=grayscale)
     img_arr = np.expand_dims(image.img_to_array(img), axis=0)
     if not grayscale:
-        img_arr = preprocess_input(img_arr)
+        img_arr = preprocess_input(img_arr, mean, std)
     return img_arr
 
 
