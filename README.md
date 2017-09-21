@@ -30,10 +30,14 @@ Interactive convnet features visualization for Keras
 
 **Installation**
 
+```bash
+    pip install quiver_engine
+```
+
 If you want the latest version from the repo
 
 ```bash
-    pip install git+git://github.com/ziky90/quiver.git
+    pip install git+git://github.com/keplr-io/quiver.git
 ```
 
 

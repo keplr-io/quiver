@@ -1,4 +1,3 @@
-import os
 from __future__ import absolute_import, division, print_function
 import json
 from flask.json import jsonify
@@ -84,7 +83,7 @@ def load_img(input_path, target_shape, grayscale=False, mean=None, std=None):
                          grayscale=grayscale)
     img_arr = np.expand_dims(image.img_to_array(img), axis=0)
     if not grayscale:
-        img_arr = preprocess_input(img_arr, mean, std)
+        img_arr = preprocess_input(img_arr, mean=mean, std=std)
     return img_arr
 
 
