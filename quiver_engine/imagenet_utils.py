@@ -12,7 +12,6 @@ import numpy as np
 
 CLASS_INDEX = None
 CLASS_INDEX_PATH = 'https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json'
-EPS = np.finfo(np.float32).eps
 
 
 def preprocess_input(x, dim_ordering='default', mean=None, std=None):
@@ -23,7 +22,7 @@ def preprocess_input(x, dim_ordering='default', mean=None, std=None):
     if mean is not None:
         x = x - np.array(mean, dtype='float32')
     if std is not None:
-        x = x / (np.array(std, dtype='float32') + EPS)
+        x = x / np.array(std, dtype='float32')
 
     if mean is None and std is None:
         if dim_ordering == 'th':
