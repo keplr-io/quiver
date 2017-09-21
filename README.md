@@ -69,7 +69,11 @@ This will launch the visualization at `localhost:5000`
         input_folder='./',
 
         # the localhost port the dashboard is to be served on
-        port=5000
+        port=5000,
+        # custom data mean
+        mean=[123.568, 124.89, 111.56],
+        # custom data standard deviation
+        std=[52.85, 48.65, 51.56]
     )
 ```
 

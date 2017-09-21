@@ -22,7 +22,8 @@ from quiver_engine.file_utils import list_img_files
 from quiver_engine.vis_utils import save_layer_outputs
 
 
-def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folder='./'):
+def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folder='./',
+            mean=None, std=None):
     '''
     The base of the Flask application to be run
     :param model: the model to show
@@ -33,6 +34,8 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
         packages, quiverboard/dist must be a subdirectory)
     :param temp_folder: where the temporary image data should be saved
     :param input_folder: the image directory for the raw data
+    :param mean: list of float mean values
+    :param std: lost of float std values
     :return:
     '''
 
@@ -91,7 +94,8 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
                 load_img(
                     join(abspath(input_folder), input_path),
                     single_input_shape,
-                    grayscale=input_channels == 1
+                    grayscale=(input_channels == 1),
+                    mean=mean, std=std
                 ),
                 model,
                 layer_name,
@@ -109,7 +113,8 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
                         load_img(
                             join(abspath(input_folder), input_path),
                             single_input_shape,
-                            grayscale=(input_channels == 1)
+                            grayscale=(input_channels == 1),
+                            mean=mean, std=std
                         )
                     ),
                     classes,
@@ -125,7 +130,9 @@ def run_app(app, port=5000):
     webbrowser.open_new('http://localhost:' + str(port))
     http_server.serve_forever()
 
-def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./', port=5000, html_base_dir=None):
+
+def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./',
+           port=5000, html_base_dir=None, mean=None, std=None):
     os.system('mkdir -p %s' % temp_folder)
 
     html_base_dir = html_base_dir if html_base_dir is not None else dirname(abspath(__file__))
@@ -137,7 +144,8 @@ def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./', p
             model, classes, top,
             html_base_dir=html_base_dir,
             temp_folder=temp_folder,
-            input_folder=input_folder
+            input_folder=input_folder,
+            mean=mean, std=std
         ),
         port
     )
