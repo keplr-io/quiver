@@ -22,6 +22,8 @@ def preprocess_input(x, dim_ordering='default', mean=None, std=None):
     if mean is not None:
         x = x - np.array(mean, dtype='float32')
     if std is not None:
+        if 0.0 in std:
+            raise ValueError('0 is not allowed as a custom std.')
         x = x / np.array(std, dtype='float32')
 
     if mean is None and std is None:
