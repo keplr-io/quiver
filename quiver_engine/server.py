@@ -2,6 +2,8 @@ from __future__ import print_function
 
 import json
 
+import platform
+
 import os
 from os.path import abspath, dirname, join
 import webbrowser
@@ -10,7 +12,10 @@ from flask import Flask, send_from_directory
 from flask.json import jsonify
 from flask_cors import CORS
 
-from gevent.wsgi import WSGIServer
+try:
+    from gevent.wsgi import WSGIServer
+except ImportError:
+    from gevent.pywsgi import WSGIServer
 
 from quiver_engine.util import (
     load_img, safe_jsonify, decode_predictions,
@@ -133,7 +138,11 @@ def run_app(app, port=5000):
 
 def launch(model, classes=None, top=5, temp_folder='./tmp', input_folder='./',
            port=5000, html_base_dir=None, mean=None, std=None):
-    os.system('mkdir -p %s' % temp_folder)
+    if platform.system() is 'Windows':
+        temp_folder = '.\\tmp'
+        os.system('mkdir %s' % temp_folder)
+    else:
+        os.system('mkdir -p %s' % temp_folder)
 
     html_base_dir = html_base_dir if html_base_dir is not None else dirname(abspath(__file__))
 
